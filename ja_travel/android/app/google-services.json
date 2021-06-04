@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "671436653673",
+    "project_id": "proyecto-dam-ed977",
+    "storage_bucket": "proyecto-dam-ed977.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671436653673:android:957fd6195be66f32910ef8",
+        "android_client_info": {
+          "package_name": "com.josecaro.ja_travel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671436653673-rv32hrp764cjaq750dko14ek60jkgt99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPFQ64VxFmjauS2AnkykmPxX-QxFNLBB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671436653673-rv32hrp764cjaq750dko14ek60jkgt99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
