@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomTile extends StatelessWidget {
+  /*Custom ListTile 
+  Width: 200*/
   const CustomTile({
     Key? key,
     required this.label,
@@ -9,9 +11,13 @@ class CustomTile extends StatelessWidget {
     this.textStyle,
   }) : super(key: key);
 
+  /*Titulo del customListTile */
   final String label;
+  /*Icono del CustomListTile */
   final Icon icon;
+  /* Anchura del CustomListTile */
   final double width;
+  /*Estilo del titulo del CustomListTile */
   final TextStyle? textStyle;
 
   @override

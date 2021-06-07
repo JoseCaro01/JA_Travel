@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  /*Este custom widget se encarga de la funcionalidad de un buscador en la Appbar mediante el uso de un controller*/
   const CustomAppBar(
       {Key? key,
       required this.controller,
@@ -8,8 +9,11 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
       required this.titleSearch})
       : super(key: key);
 
+  /*Controlador del TextField */
   final TextEditingController controller;
+  /*Titulo de la appbar en modo normal */
   final String title;
+  /*Tiutlo de la appBar en modo buscador */
   final String titleSearch;
 
   @override
@@ -20,6 +24,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  /*Booleano encargado de gestionar si es buscador o no*/
   bool searchOrSee = false;
 
   @override

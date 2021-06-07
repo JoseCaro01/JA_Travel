@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
+  /*Custom TextFormField con los estilos predefinidos de la app  */
   CustomTextFormField(
       {required this.label,
       required this.validator,
@@ -12,14 +13,23 @@ class CustomTextFormField extends StatelessWidget {
       required this.controller,
       this.obscureText = false});
 
+  /*Titulo del TextFormField */
   final String label;
+  /*Funcion para validar */
   final String? Function(String? value) validator;
+  /*Icono delantero */
   final Icon? prefixIcon;
+  /*Icono trasero */
   final Widget? suffixIcon;
+  /*Accion del input */
   final TextInputAction textInputAction;
+  /*Controladro de texto oscuro */
   final bool obscureText;
+  /*Lineas maximas del input */
   final int maxLines;
+  /*Controlador de enabled del input */
   final bool enabled;
+  /*Controlador del input */
   final TextEditingController controller;
 
   @override

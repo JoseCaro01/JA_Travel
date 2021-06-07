@@ -19,34 +19,42 @@ class FirebasePostApi {
     return posts;
   }
 
-  Future<void> createOrSetPost({required PostModel post}) async =>
+  Future<void> createOrSetPost({required PostModel post}) async {
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc("${post.id}${post.uid}")
+        .set(post.toMap());
+
+    print("Call createOrUpdate post successfull");
+  }
+
+  deletePost({required PostModel post}) async {
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc("${post.id}${post.uid}")
+        .delete();
+    print("Call deletePost successfull");
+  }
+
+  setPostsImageProfile(
+      {required List<PostModel> postList,
+      required String imagenPerfil,
+      required String uid}) {
+    postList.forEach((post) async {
+      if (uid == post.uid) {
+        post.imagenPerfil = imagenPerfil;
+      }
+      post.comments.forEach((key, value) {
+        if (key == uid) {
+          value[1] = imagenPerfil;
+        }
+      });
       await FirebaseFirestore.instance
           .collection('posts')
           .doc("${post.id}${post.uid}")
           .set(post.toMap());
+    });
 
-  deletePost({required PostModel post}) async =>
-      await FirebaseFirestore.instance
-          .collection('posts')
-          .doc("${post.id}${post.uid}")
-          .delete();
-
-  setPostsImageProfile(
-          {required List<PostModel> postList,
-          required String imagenPerfil,
-          required String uid}) =>
-      postList.forEach((post) async {
-        if (uid == post.uid) {
-          post.imagenPerfil = imagenPerfil;
-        }
-        post.comments.forEach((key, value) {
-          if (key == uid) {
-            value[1] = imagenPerfil;
-          }
-        });
-        await FirebaseFirestore.instance
-            .collection('posts')
-            .doc("${post.id}${post.uid}")
-            .set(post.toMap());
-      });
+    print("Call setPostImage successfull");
+  }
 }

@@ -5,12 +5,13 @@ import 'package:ja_travel/provider/login_provider.dart';
 import 'package:ja_travel/provider/post_provider.dart';
 import 'package:ja_travel/provider/user_provider.dart';
 import 'package:ja_travel/provider/weather_provider.dart';
+import 'package:ja_travel/screens/detailview_post/pages/detailview_post.dart';
+import 'package:ja_travel/screens/home/pages/home_page.dart';
+import 'package:ja_travel/provider/home_provider.dart';
 import 'package:ja_travel/screens/login/pages/login_page.dart';
 import 'package:ja_travel/screens/register/pages/register_page.dart';
 import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
-
-/*Validaciones realizadas :REGISTER LOGIN FORGETPASSWORD AND LOADING*/
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => CityProvider()),
       ChangeNotifierProvider(create: (_) => WeatherProvider()),
       ChangeNotifierProvider(create: (_) => PostProvider()),
+      ChangeNotifierProvider(create: (_) => HomeProvider()),
     ],
     child: MyApp(),
   ));
@@ -36,7 +38,9 @@ class MyApp extends StatelessWidget {
       theme: ColorConfig.getWhiteTheme(),
       routes: {
         '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen()
+        '/register': (context) => RegisterScreen(),
+        '/home': (context) => HomeScreen(),
+        '/detail_post': (context) => DetailViewPost()
       },
       home: LoginScreen(),
     );

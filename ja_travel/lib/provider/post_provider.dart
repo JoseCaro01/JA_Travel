@@ -31,11 +31,13 @@ class PostProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /*Metodo para crear o actualizar un post   */
   Future<void> createOrSetPost({required PostModel post}) async {
     await _firebasePostApi.createOrSetPost(post: post);
     await getPosts();
   }
 
+  /*Metodo para dar o quitar like */
   Future<void> toogleLike({required PostModel post}) async {
     if (!isLikeIt(post: post)) {
       post.likes[(FirebaseAuth.instance.currentUser!.uid)] = 0;
@@ -46,16 +48,19 @@ class PostProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /*Metodo para comprobar si ya tiene like */
   isLikeIt({required PostModel post}) {
     int? index = post.likes[FirebaseAuth.instance.currentUser!.uid];
     return index != null;
   }
 
+  /*Metodo para borrar un post */
   Future<void> deletePost({required PostModel post}) async {
     await _firebasePostApi.deletePost(post: post);
     await getPosts();
   }
 
+  /*Metodo para actualizar las imagenes de los post si cambia la imagen del perfil */
   setPostsImageProfileImage(
       {required String imageProfile, required String uid}) async {
     await _firebasePostApi.setPostsImageProfile(
@@ -63,6 +68,7 @@ class PostProvider with ChangeNotifier {
     await getPosts();
   }
 
+  /*Metodo para crear comentario */
   Future<void> createComment(
       {required PostModel post, required CommentModel comment}) async {
     post.comments.addAll(
@@ -70,10 +76,10 @@ class PostProvider with ChangeNotifier {
     await createOrSetPost(post: post);
   }
 
+  /*Metodo para eliminar comentario */
   Future<void> deleteComment(
       {required PostModel post, required CommentModel comment}) async {
-    print(comment.id);
-    print(post.comments.remove("${comment.uid}${comment.id}"));
+    post.comments.remove("${comment.uid}${comment.id}").toString();
     await createOrSetPost(post: post);
   }
 }

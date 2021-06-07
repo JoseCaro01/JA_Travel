@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Loading extends StatefulWidget {
+  /*Widget encargado de mostrar pantalla de cargando ademas de realizar las peticiones asincronas */
   const Loading({Key? key, required this.onCall}) : super(key: key);
 
   final VoidCallback onCall;

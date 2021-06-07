@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ColorConfig {
+  /*Metodo para obtener el Tema blanco */
   static ThemeData getWhiteTheme() {
     return ThemeData(
       appBarTheme: AppBarTheme(
