@@ -107,6 +107,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   email: email.text,
                   password: password.text,
                   user: UserModel(
+                      favourites: {},
                       username: username.text,
                       name: name.text,
                       address: address.text,
@@ -132,14 +133,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (context, animation, secondaryAnimation) =>
-                      Opacity(
-                    opacity: 0.7,
-                    child: Loading(
-                      onCall: () async {
-                        await context.read<PostProvider>().getPosts();
-                        await context.read<CityProvider>().getCities();
-                      },
-                    ),
+                      Loading(
+                    onCall: () async {
+                      await context.read<PostProvider>().getPosts();
+                      await context.read<CityProvider>().getCities();
+                      Navigator.pushReplacementNamed(context, '/home');
+                    },
                   ),
                 );
               }

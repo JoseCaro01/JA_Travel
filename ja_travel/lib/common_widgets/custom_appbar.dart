@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ja_travel/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   /*Este custom widget se encarga de la funcionalidad de un buscador en la Appbar mediante el uso de un controller*/
-  const CustomAppBar(
-      {Key? key,
-      required this.controller,
-      required this.title,
-      required this.titleSearch})
-      : super(key: key);
+  const CustomAppBar({
+    Key? key,
+    required this.controller,
+    required this.title,
+    required this.titleSearch,
+  }) : super(key: key);
 
   /*Controlador del TextField */
   final TextEditingController controller;
@@ -55,7 +57,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ] //BORRAR QUERY,)],
             )
         : AppBar(
-            automaticallyImplyLeading: false,
+            automaticallyImplyLeading:
+                context.read<UserProvider>().user == null,
             title: Text(widget.title,
                 style: Theme.of(context).appBarTheme.titleTextStyle),
             actions: [

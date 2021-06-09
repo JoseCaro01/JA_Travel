@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ja_travel/provider/post_provider.dart';
+import 'package:ja_travel/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class PostActionRow extends StatelessWidget {
@@ -55,8 +56,16 @@ class PostActionRow extends StatelessWidget {
               ],
             ),
             IconButton(
-              icon: Icon(FontAwesomeIcons.star),
-              onPressed: () => print("GUARDA A FAVORITOS"),
+              icon: Icon(context.watch<UserProvider>().isSave(
+                      post: context.read<PostProvider>().posts![postIndex])
+                  ? FontAwesomeIcons.solidStar
+                  : FontAwesomeIcons.star),
+              color: context.watch<UserProvider>().isSave(
+                      post: context.read<PostProvider>().posts![postIndex])
+                  ? Colors.yellow
+                  : Colors.black,
+              onPressed: () => context.read<UserProvider>().toogleFavourite(
+                  post: context.read<PostProvider>().posts![postIndex]),
             )
           ],
         ),
@@ -67,16 +76,34 @@ class PostActionRow extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Padding(
+        Container(
           padding:
               const EdgeInsets.only(left: 16, right: 16, bottom: 20, top: 10),
           child: Text(
-            context.read<PostProvider>().posts![postIndex].descripcion.length >
-                        80 &&
-                    !showAllText
-                ? "${context.watch<PostProvider>().posts![postIndex].descripcion.substring(0, 80)}..."
-                : context.read<PostProvider>().posts![postIndex].descripcion,
+            context
+                .read<PostProvider>()
+                .posts![postIndex]
+                .descripcion
+                .substring(
+                    0,
+                    context
+                                .read<PostProvider>()
+                                .posts![postIndex]
+                                .descripcion
+                                .indexOf("\n") ==
+                            -1
+                        ? context
+                            .read<PostProvider>()
+                            .posts![postIndex]
+                            .descripcion
+                            .length
+                        : context
+                            .read<PostProvider>()
+                            .posts![postIndex]
+                            .descripcion
+                            .indexOf("\n")),
             textAlign: TextAlign.justify,
+            overflow: !showAllText ? TextOverflow.ellipsis : null,
             style: descriptionTextStyle,
           ),
         ),

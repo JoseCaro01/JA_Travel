@@ -1,4 +1,4 @@
-class PlaceModel {
+class Place {
   final double longitud;
   final double latitud;
   final String id;
@@ -9,7 +9,7 @@ class PlaceModel {
   final String comunidad;
   final String pais;
 
-  PlaceModel(
+  Place(
       {required this.nombre,
       required this.id,
       required this.latitud,
@@ -29,7 +29,7 @@ class PlaceModel {
         'imagen': imagen,
       };
 
-  PlaceModel.fromMap(Map<String, dynamic> data)
+  Place.fromMap(Map<String, dynamic> data)
       : id = data['id'],
         nombre = data['nombre'],
         longitud = data['longitud'],

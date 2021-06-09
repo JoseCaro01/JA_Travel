@@ -9,6 +9,7 @@ class UserModel {
   String? uid;
   Map<String, dynamic> followed;
   int followers;
+  Map<String, dynamic> favourites;
 
   UserModel(
       {required this.username,
@@ -18,6 +19,7 @@ class UserModel {
       required this.phone,
       required this.image,
       required this.followed,
+      required this.favourites,
       required this.followers});
 
   Map<String, dynamic> toMap() => {
@@ -28,7 +30,8 @@ class UserModel {
         'image': image == "" ? DEFAULT_IMAGE : image,
         'uid': uid,
         'followed': followed,
-        'followers': followers
+        'followers': followers,
+        'favourites': favourites
       };
 
   UserModel.fromJson(Map<String, dynamic> data)
@@ -39,5 +42,6 @@ class UserModel {
         image = data['image'],
         followed = data['followed'],
         followers = data['followers'],
+        favourites = data['favourites'],
         uid = data['uid'];
 }

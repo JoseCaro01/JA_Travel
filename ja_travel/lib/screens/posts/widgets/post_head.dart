@@ -84,11 +84,8 @@ class PostHead extends StatelessWidget {
 
   choiceAction(BuildContext context, String value) {
     if (value == "Editar") {
-      /*showGeneralDialog(
-        context: context,
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            EditPost(post: context.read<PostProvider>().posts![postIndex]),
-      );*/
+      Navigator.pushNamed(context, '/edit_post',
+          arguments: context.read<PostProvider>().posts![postIndex]);
     } else if (value == "Eliminar") {
       context
           .read<PostProvider>()

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ja_travel/common_widgets/custom_image_base.dart';
-import 'package:ja_travel/common_widgets/custom_tile.dart';
 import 'package:ja_travel/common_widgets/post_action_row.dart';
 import 'package:ja_travel/models/comment.dart';
 import 'package:ja_travel/provider/post_provider.dart';
@@ -86,7 +85,7 @@ class _DetailViewPostState extends State<DetailViewPost> {
                   descriptionTextStyle: TextStyle(color: Colors.black),
                   postIndex: postIndex!,
                   commentsAction: () =>
-                      scroll.jumpTo(scroll.position.maxScrollExtent),
+                      scroll.jumpTo(MediaQuery.of(context).size.height / 2),
                 ),
                 ...getComments(context),
               ],
@@ -125,10 +124,11 @@ class _DetailViewPostState extends State<DetailViewPost> {
                               .createComment(
                                   comment: CommentModel(
                                       id: context
-                                          .read<PostProvider>()
-                                          .posts![postIndex!]
-                                          .comments
-                                          .length,
+                                              .read<PostProvider>()
+                                              .posts![postIndex!]
+                                              .comments
+                                              .length +
+                                          1,
                                       uid: context
                                           .read<UserProvider>()
                                           .user!

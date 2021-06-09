@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'custom_elevatedbutton.dart';
 
-class CustomForm extends StatelessWidget {
+class CustomForm extends StatefulWidget {
   /* Custom Formulario encargado de gestionar el solo la key y la validacion como el guardado 
   Padding Formulario: 16 Horizontal*/
   CustomForm(
@@ -20,8 +20,19 @@ class CustomForm extends StatelessWidget {
   final IconData iconButton;
   /*Accion del boton del formulario */
   final void Function(bool validate) onPressedButton;
-  /*Key encargada de gestionar la valicacion del formulario */
-  final _key = GlobalKey<FormState>();
+
+  @override
+  _CustomFormState createState() => _CustomFormState();
+}
+
+class _CustomFormState extends State<CustomForm> {
+  late final _key;
+
+  @override
+  void initState() {
+    _key = GlobalKey<FormState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +42,13 @@ class CustomForm extends StatelessWidget {
         key: _key,
         child: Column(
           children: [
-            ...children,
+            ...widget.children,
             CustomElevatedButton(
-              title: titleButton,
-              iconData: iconButton,
+              title: widget.titleButton,
+              iconData: widget.iconButton,
               onPressed: () {
                 _key.currentState!.save();
-                onPressedButton(_key.currentState!.validate());
+                widget.onPressedButton(_key.currentState!.validate());
               },
             )
           ],

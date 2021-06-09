@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ja_travel/models/post.dart';
 import 'package:ja_travel/models/user.dart';
 import 'package:ja_travel/services/firebase/firebase_user.dart';
 
@@ -71,4 +72,22 @@ class UserProvider extends ChangeNotifier {
   /*Meotodo para recuperar la contraseña */
   recoverPassword({required String email}) =>
       _firebaseUserApi.recoverPassword(email: email);
+
+  /* */
+  toogleFavourite({required PostModel post}) async {
+    if (isSave(post: post)) {
+      await FirebaseUserApi.instance
+          .unsavePostToFavourite(user: user!, post: post);
+    } else {
+      await FirebaseUserApi.instance
+          .savePostToFavourite(user: user!, post: post);
+    }
+    await getUserData();
+    notifyListeners();
+  }
+
+  isSave({required PostModel post}) {
+    Map? value = user!.favourites["${post.uid}${post.id}"];
+    return value != null;
+  }
 }

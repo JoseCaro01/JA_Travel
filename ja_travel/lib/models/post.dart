@@ -4,7 +4,7 @@ class PostModel {
   final String uid;
   String imagenPerfil;
   String imagen;
-  final String username;
+  String username;
   String id;
   Map likes;
   Map comments;

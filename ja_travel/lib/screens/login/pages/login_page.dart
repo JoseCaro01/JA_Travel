@@ -12,22 +12,20 @@ class LoginScreen extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
-                Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      width: 200,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                          child: Text(
-                        "JA TRAVEL",
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      )),
-                    )),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                      child: Text(
+                    "JA TRAVEL",
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  )),
+                ),
                 LoginForm(),
                 CustomElevatedButton(
                   title: "Registrarse",

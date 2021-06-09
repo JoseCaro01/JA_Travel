@@ -43,18 +43,15 @@ class _LoginFormState extends State<LoginForm> {
                 .loginUser(email: email.text, password: password.text);
             showGeneralDialog(
               context: context,
-              pageBuilder: (context, animation, secondaryAnimation) => Opacity(
-                opacity: 0.7,
-                child: Loading(
-                  onCall: () async {
-                    await context.read<UserProvider>().getUserData();
-                    await context.read<PostProvider>().getPosts();
-                    await context.read<CityProvider>().getCities();
+              pageBuilder: (context, animation, secondaryAnimation) => Loading(
+                onCall: () async {
+                  await context.read<UserProvider>().getUserData();
+                  await context.read<PostProvider>().getPosts();
+                  await context.read<CityProvider>().getCities();
 
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (route) => false);
-                  },
-                ),
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (route) => false);
+                },
               ),
             );
           } catch (e) {

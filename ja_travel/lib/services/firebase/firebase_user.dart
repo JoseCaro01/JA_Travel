@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ja_travel/models/post.dart';
 import 'package:ja_travel/models/user.dart';
 
 class FirebaseUserApi {
@@ -51,8 +52,45 @@ class FirebaseUserApi {
     print("Call registerUser good");
   }
 
+  /*Metodo para recuperar la contraseña */
   Future<void> recoverPassword({required String email}) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     print("Call recoverPassword good");
+  }
+
+  Future<void> savePostToFavourite(
+      {required UserModel user, required PostModel post}) async {
+    await FirebaseFirestore.instance
+        .collection('perfil')
+        .doc(user.uid)
+        .get()
+        .then((value) {
+      Map<String, dynamic> posts = value['favourites'];
+      posts["${post.uid}${post.id}"] = post.toMap();
+      user.favourites = posts;
+      FirebaseFirestore.instance
+          .collection('perfil')
+          .doc(user.uid)
+          .set(user.toMap());
+    });
+    print("Call unsavePost successfull");
+  }
+
+  Future<void> unsavePostToFavourite(
+      {required UserModel user, required PostModel post}) async {
+    await FirebaseFirestore.instance
+        .collection('perfil')
+        .doc(user.uid)
+        .get()
+        .then((value) {
+      Map<String, dynamic> posts = value['favourites'];
+      posts.remove("${post.uid}${post.id}");
+      user.favourites = posts;
+      FirebaseFirestore.instance
+          .collection('perfil')
+          .doc(user.uid)
+          .set(user.toMap());
+    });
+    print("Call unsavePost successfull");
   }
 }

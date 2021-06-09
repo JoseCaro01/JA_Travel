@@ -62,9 +62,14 @@ class PostProvider with ChangeNotifier {
 
   /*Metodo para actualizar las imagenes de los post si cambia la imagen del perfil */
   setPostsImageProfileImage(
-      {required String imageProfile, required String uid}) async {
-    await _firebasePostApi.setPostsImageProfile(
-        postList: _posts!, imagenPerfil: imageProfile, uid: uid);
+      {required String imageProfile,
+      required String uid,
+      required String username}) async {
+    await _firebasePostApi.setPostsImageAndUsernameProfile(
+        postList: _posts!,
+        imagenPerfil: imageProfile,
+        uid: uid,
+        username: username);
     await getPosts();
   }
 
