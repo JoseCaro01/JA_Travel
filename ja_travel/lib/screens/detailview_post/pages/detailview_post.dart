@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:ja_travel/common_widgets/custom_image_base.dart';
 import 'package:ja_travel/common_widgets/post_action_row.dart';
 import 'package:ja_travel/models/comment.dart';
+import 'package:ja_travel/models/post.dart';
 import 'package:ja_travel/provider/post_provider.dart';
 import 'package:ja_travel/provider/user_provider.dart';
+import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
 
 class DetailViewPost extends StatefulWidget {
+  DetailViewPost({required this.data});
+
+  List data;
   @override
   _DetailViewPostState createState() => _DetailViewPostState();
 }
 
 class _DetailViewPostState extends State<DetailViewPost> {
   int? postIndex;
+  bool? isAll;
   final TextEditingController message = TextEditingController();
   final ScrollController scroll = ScrollController();
 
@@ -25,8 +31,10 @@ class _DetailViewPostState extends State<DetailViewPost> {
 
   @override
   void initState() {
+    postIndex = widget.data[0];
+    isAll = widget.data[2];
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if ((ModalRoute.of(context)!.settings.arguments as List)[1]) {
+      if (widget.data[1]) {
         scroll.jumpTo(MediaQuery.of(context).size.height / 2);
       }
     });
@@ -35,11 +43,15 @@ class _DetailViewPostState extends State<DetailViewPost> {
 
   @override
   Widget build(BuildContext context) {
-    postIndex = (ModalRoute.of(context)!.settings.arguments as List)[0];
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          context.read<PostProvider>().posts![postIndex!].username,
+          isAll!
+              ? context.read<PostProvider>().posts![postIndex!].username
+              : context
+                  .read<PostProvider>()
+                  .followedPosts![postIndex!]
+                  .username,
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
         leadingWidth: 105,
@@ -53,104 +65,118 @@ class _DetailViewPostState extends State<DetailViewPost> {
               ),
               ClipOval(
                 child: CustomImageBase(
-                    defaultImage: context
-                        .read<PostProvider>()
-                        .posts![postIndex!]
-                        .imagenPerfil),
+                    defaultImage: isAll!
+                        ? context
+                            .read<PostProvider>()
+                            .posts![postIndex!]
+                            .imagenPerfil
+                        : context
+                            .read<PostProvider>()
+                            .followedPosts![postIndex!]
+                            .imagenPerfil),
               ),
             ],
           ),
         ),
       ),
-      body: Stack(
-        fit: StackFit.expand,
+      body: Column(
         children: [
-          SingleChildScrollView(
-            controller: scroll,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: CustomImageBase(
-                      fit: BoxFit.cover,
-                      defaultImage: context
-                          .read<PostProvider>()
-                          .posts![postIndex!]
-                          .imagen),
-                ),
-                PostActionRow(
-                  showAllText: true,
-                  descriptionTextStyle: TextStyle(color: Colors.black),
-                  postIndex: postIndex!,
-                  commentsAction: () =>
-                      scroll.jumpTo(MediaQuery.of(context).size.height / 2),
-                ),
-                ...getComments(context),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(16),
-              color: Colors.white,
-              child: Row(
+          Container(
+            height: MediaQuery.of(context).size.height * 0.749,
+            child: SingleChildScrollView(
+              controller: scroll,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                      child: TextField(
-                    controller: message,
-                    decoration: InputDecoration(
-                      labelText: "Mensaje",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
-                      ),
-                    ),
-                  )),
-                  SizedBox(
-                    width: 16,
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2,
+                    child: CustomImageBase(
+                        fit: BoxFit.cover,
+                        defaultImage: isAll!
+                            ? context
+                                .read<PostProvider>()
+                                .posts![postIndex!]
+                                .imagen
+                            : context
+                                .read<PostProvider>()
+                                .followedPosts![postIndex!]
+                                .imagen),
                   ),
-                  IconButton(
-                      onPressed: () async {
-                        if (message.text.isNotEmpty) {
-                          await context
-                              .read<PostProvider>()
-                              .createComment(
-                                  comment: CommentModel(
-                                      id: context
-                                              .read<PostProvider>()
-                                              .posts![postIndex!]
-                                              .comments
-                                              .length +
-                                          1,
-                                      uid: context
-                                          .read<UserProvider>()
-                                          .user!
-                                          .uid!,
-                                      username: context
-                                          .read<UserProvider>()
-                                          .user!
-                                          .username,
-                                      imageProfile: context
-                                          .read<UserProvider>()
-                                          .user!
-                                          .image,
-                                      comment: message.text),
-                                  post: context
-                                      .read<PostProvider>()
-                                      .posts![postIndex!])
-                              .then((value) => message.clear());
-                        }
-                      },
-                      icon: Icon(Icons.keyboard_arrow_right))
+                  PostActionRow(
+                    isAll: isAll!,
+                    showAllText: true,
+                    descriptionTextStyle: TextStyle(
+                        color:
+                            ColorConfig.tabsIndicatorAndBottomNavigationColor),
+                    postIndex: postIndex!,
+                    commentsAction: () =>
+                        scroll.jumpTo(MediaQuery.of(context).size.height / 2),
+                  ),
+                  ..._getComments(context),
                 ],
               ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  controller: message,
+                  decoration: InputDecoration(
+                    labelText: "Mensaje",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                )),
+                SizedBox(
+                  width: 16,
+                ),
+                IconButton(
+                    onPressed: () async {
+                      if (message.text.isNotEmpty) {
+                        await context
+                            .read<PostProvider>()
+                            .createComment(
+                                comment: CommentModel(
+                                    id: isAll!
+                                        ? context
+                                                .read<PostProvider>()
+                                                .posts![postIndex!]
+                                                .comments
+                                                .length +
+                                            1
+                                        : context
+                                                .read<PostProvider>()
+                                                .followedPosts![postIndex!]
+                                                .comments
+                                                .length +
+                                            1,
+                                    uid:
+                                        context.read<UserProvider>().user!.uid!,
+                                    username: context
+                                        .read<UserProvider>()
+                                        .user!
+                                        .username,
+                                    imageProfile: context
+                                        .read<UserProvider>()
+                                        .user!
+                                        .image,
+                                    comment: message.text),
+                                post: context
+                                    .read<PostProvider>()
+                                    .posts![postIndex!])
+                            .then((value) => message.clear());
+                      }
+                    },
+                    icon: Icon(Icons.keyboard_arrow_right))
+              ],
             ),
           ),
         ],
@@ -158,14 +184,14 @@ class _DetailViewPostState extends State<DetailViewPost> {
     );
   }
 
-  List<Widget> getComments(BuildContext context) {
+  List<Widget> _getComments(BuildContext context) {
     List<Widget> comments = [];
     CommentModel comment;
-    context
-        .watch<PostProvider>()
-        .posts![postIndex!]
-        .comments
-        .forEach((key, value) {
+    PostModel post = (isAll!
+        ? context.watch<PostProvider>().posts![postIndex!]
+        : context.watch<PostProvider>().followedPosts![postIndex!]);
+
+    post.comments.forEach((key, value) {
       comment = CommentModel.fromMap(value);
       comments.addAll([
         Padding(

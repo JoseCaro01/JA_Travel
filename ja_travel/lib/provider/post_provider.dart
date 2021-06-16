@@ -5,14 +5,18 @@ import 'package:ja_travel/models/post.dart';
 import 'package:ja_travel/services/firebase/firebase_posts.dart';
 
 class PostProvider with ChangeNotifier {
-  /*Instanciacion de la lista donde se guardaran las ciudades*/
+  /*Instanciacion de la lista donde se guardaran los posts de todos*/
   List<PostModel>? _posts;
+
+  List<PostModel>? _followedPosts;
 
   /*Instanciacion del repositorio FirebaseCitiesApi */
   FirebasePostApi _firebasePostApi = FirebasePostApi.instance;
 
   /*Metodo para pedir la cuidades en la UI */
   List<PostModel>? get posts => _posts;
+
+  List<PostModel>? get followedPosts => _followedPosts;
 
   /*Metodo para obtener tus propios post */
   List<PostModel> specificPosts({required String uid}) {
@@ -23,6 +27,18 @@ class PostProvider with ChangeNotifier {
       }
     });
     return own;
+  }
+
+  void specificPostsByListUID({required List<String> uids}) {
+    List<PostModel> posts = [];
+    _posts!.forEach((post) {
+      uids.forEach((uid) {
+        if (post.uid == uid) {
+          posts.add(post);
+        }
+      });
+    });
+    _followedPosts = posts;
   }
 
   /*Metodo para obtener las posts por primera vez  */

@@ -46,9 +46,6 @@ class CustomTextFormField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
         ),
         validator: validator,
       ),

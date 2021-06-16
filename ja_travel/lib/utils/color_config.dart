@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 
 class ColorConfig {
+  static Color tabsIndicatorAndBottomNavigationColor = Colors.white;
   /*Metodo para obtener el Tema blanco */
-  static ThemeData getWhiteTheme() {
+
+  static ThemeData getDarkTheme() {
+    tabsIndicatorAndBottomNavigationColor = Colors.white;
     return ThemeData(
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.grey[50],
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        titleTextStyle: TextStyle(color: Colors.black),
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.white, foregroundColor: Colors.black),
-    );
+        colorScheme: ColorScheme.dark(),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.white, foregroundColor: Colors.black),
+        appBarTheme:
+            AppBarTheme(titleTextStyle: TextStyle(color: Colors.white)));
+  }
+
+  static ThemeData getLightTheme() {
+    tabsIndicatorAndBottomNavigationColor = Colors.black;
+    return ThemeData(
+        colorScheme: ColorScheme.light(),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.white, foregroundColor: Colors.black),
+        appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(color: Colors.black),
+            color: Colors.white,
+            titleTextStyle: TextStyle(color: Colors.black)));
   }
 }

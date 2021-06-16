@@ -10,10 +10,9 @@ import 'package:ja_travel/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class CreatePost extends StatefulWidget {
-  CreatePost({
-    Key? key,
-  }) : super(key: key);
+  CreatePost({Key? key, required this.data}) : super(key: key);
 
+  final Object data;
   @override
   _CreatePostState createState() => _CreatePostState();
 }
@@ -62,8 +61,8 @@ class _CreatePostState extends State<CreatePost> {
                                     .id) +
                                 1)
                             .toString()));
-            Navigator.popUntil(
-                context, (route) => route.settings.name == '/home');
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false);
           },
         ),
       );
@@ -71,11 +70,16 @@ class _CreatePostState extends State<CreatePost> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    place = ModalRoute.of(context)!.settings.arguments as Place;
+  void initState() {
+    place = widget.data as Place;
     destino.text = place != null
         ? "${place!.nombre}, ${place!.provincia} (${place!.pais})"
         : "";
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(

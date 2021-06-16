@@ -93,4 +93,9 @@ class FirebaseUserApi {
     });
     print("Call unsavePost successfull");
   }
+
+  Future<void> changePassword({required String password}) async {
+    await FirebaseAuth.instance.currentUser!.updatePassword(password);
+    print("Call changePassword successfull");
+  }
 }

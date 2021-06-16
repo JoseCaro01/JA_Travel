@@ -20,8 +20,13 @@ class CityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/detailview_cities',
-          arguments: context.read<CityProvider>().places[index]),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        Navigator.pushNamed(context, '/detailview_cities',
+            arguments: controller.text.isEmpty
+                ? context.read<CityProvider>().places[index]
+                : cities[index]);
+      },
       child: Container(
         child: Card(
           elevation: 8,

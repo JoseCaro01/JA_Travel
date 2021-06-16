@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ja_travel/models/post.dart';
 import 'package:ja_travel/models/user.dart';
@@ -36,7 +37,8 @@ class UserProvider extends ChangeNotifier {
   }
 
   /* Metodo Loguear un usuario */
-  loginUser({required String email, required String password}) async {
+  Future<void> loginUser(
+      {required String email, required String password}) async {
     await _firebaseUserApi.loginUser(email: email, password: password);
   }
 
@@ -90,4 +92,12 @@ class UserProvider extends ChangeNotifier {
     Map? value = user!.favourites["${post.uid}${post.id}"];
     return value != null;
   }
+
+  Future<void> changePassword(
+          {required String newPassword, required String password}) async =>
+      loginUser(
+              email: FirebaseAuth.instance.currentUser!.email!,
+              password: password)
+          .then((value) =>
+              _firebaseUserApi.changePassword(password: newPassword));
 }

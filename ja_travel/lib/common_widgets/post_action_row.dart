@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ja_travel/provider/post_provider.dart';
 import 'package:ja_travel/provider/user_provider.dart';
+import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
 
 class PostActionRow extends StatelessWidget {
@@ -11,6 +12,7 @@ class PostActionRow extends StatelessWidget {
       required this.descriptionTextStyle,
       required this.postIndex,
       required this.showAllText,
+      required this.isAll,
       this.commentsAction})
       : super(key: key);
 
@@ -22,6 +24,8 @@ class PostActionRow extends StatelessWidget {
   final bool showAllText;
   /*Acciones de los comentarios (Default: Navegar y mostrar comentarios)*/
   final VoidCallback? commentsAction;
+
+  final bool isAll;
 
   @override
   Widget build(BuildContext context) {
@@ -35,44 +39,65 @@ class PostActionRow extends StatelessWidget {
               children: [
                 IconButton(
                     icon: Icon(context.watch<PostProvider>().isLikeIt(
-                            post:
-                                context.read<PostProvider>().posts![postIndex])
+                            post: isAll
+                                ? context.read<PostProvider>().posts![postIndex]
+                                : context
+                                    .read<PostProvider>()
+                                    .followedPosts![postIndex])
                         ? FontAwesomeIcons.solidHeart
                         : FontAwesomeIcons.heart),
                     color: context.watch<PostProvider>().isLikeIt(
-                            post:
-                                context.read<PostProvider>().posts![postIndex])
+                            post: isAll
+                                ? context.read<PostProvider>().posts![postIndex]
+                                : context
+                                    .read<PostProvider>()
+                                    .followedPosts![postIndex])
                         ? Colors.red
-                        : Colors.black,
+                        : ColorConfig.tabsIndicatorAndBottomNavigationColor,
                     onPressed: () => context.read<PostProvider>().toogleLike(
-                        post: context.read<PostProvider>().posts![postIndex])),
+                        post: isAll
+                            ? context.read<PostProvider>().posts![postIndex]
+                            : context
+                                .read<PostProvider>()
+                                .followedPosts![postIndex])),
                 IconButton(
+                  color: ColorConfig.tabsIndicatorAndBottomNavigationColor,
                   icon: Icon(FontAwesomeIcons.comment),
                   onPressed: () => commentsAction == null
                       ? Navigator.pushNamed(context, '/detail_post',
-                          arguments: [postIndex, true])
+                          arguments: [postIndex, true, isAll])
                       : commentsAction!(),
                 ),
               ],
             ),
             IconButton(
               icon: Icon(context.watch<UserProvider>().isSave(
-                      post: context.read<PostProvider>().posts![postIndex])
+                      post: isAll
+                          ? context.read<PostProvider>().posts![postIndex]
+                          : context
+                              .read<PostProvider>()
+                              .followedPosts![postIndex])
                   ? FontAwesomeIcons.solidStar
                   : FontAwesomeIcons.star),
               color: context.watch<UserProvider>().isSave(
-                      post: context.read<PostProvider>().posts![postIndex])
+                      post: isAll
+                          ? context.read<PostProvider>().posts![postIndex]
+                          : context
+                              .read<PostProvider>()
+                              .followedPosts![postIndex])
                   ? Colors.yellow
-                  : Colors.black,
+                  : ColorConfig.tabsIndicatorAndBottomNavigationColor,
               onPressed: () => context.read<UserProvider>().toogleFavourite(
-                  post: context.read<PostProvider>().posts![postIndex]),
+                  post: isAll
+                      ? context.read<PostProvider>().posts![postIndex]
+                      : context.read<PostProvider>().followedPosts![postIndex]),
             )
           ],
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            "${context.watch<PostProvider>().posts![postIndex].likes.length} Me gusta/s",
+            "${isAll ? context.watch<PostProvider>().posts![postIndex].likes.length : context.watch<PostProvider>().followedPosts![postIndex].likes.length} Me gusta/s",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -80,28 +105,51 @@ class PostActionRow extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 16, right: 16, bottom: 20, top: 10),
           child: Text(
-            context
-                .read<PostProvider>()
-                .posts![postIndex]
-                .descripcion
-                .substring(
-                    0,
-                    context
+            isAll
+                ? context
+                    .read<PostProvider>()
+                    .posts![postIndex]
+                    .descripcion
+                    .substring(
+                        0,
+                        context
+                                    .read<PostProvider>()
+                                    .posts![postIndex]
+                                    .descripcion
+                                    .indexOf("\n") ==
+                                -1
+                            ? context
                                 .read<PostProvider>()
                                 .posts![postIndex]
                                 .descripcion
-                                .indexOf("\n") ==
-                            -1
-                        ? context
-                            .read<PostProvider>()
-                            .posts![postIndex]
-                            .descripcion
-                            .length
-                        : context
-                            .read<PostProvider>()
-                            .posts![postIndex]
-                            .descripcion
-                            .indexOf("\n")),
+                                .length
+                            : context
+                                .read<PostProvider>()
+                                .posts![postIndex]
+                                .descripcion
+                                .indexOf("\n"))
+                : context
+                    .read<PostProvider>()
+                    .followedPosts![postIndex]
+                    .descripcion
+                    .substring(
+                        0,
+                        context
+                                    .read<PostProvider>()
+                                    .followedPosts![postIndex]
+                                    .descripcion
+                                    .indexOf("\n") ==
+                                -1
+                            ? context
+                                .read<PostProvider>()
+                                .followedPosts![postIndex]
+                                .descripcion
+                                .length
+                            : context
+                                .read<PostProvider>()
+                                .followedPosts![postIndex]
+                                .descripcion
+                                .indexOf("\n")),
             textAlign: TextAlign.justify,
             overflow: !showAllText ? TextOverflow.ellipsis : null,
             style: descriptionTextStyle,

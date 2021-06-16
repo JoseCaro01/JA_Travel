@@ -8,9 +8,11 @@ import 'package:ja_travel/provider/home_provider.dart';
 import 'package:provider/provider.dart';
 
 class PostHead extends StatelessWidget {
-  const PostHead({Key? key, required this.postIndex}) : super(key: key);
+  const PostHead({Key? key, required this.postIndex, required this.isAll})
+      : super(key: key);
 
   final int postIndex;
+  final bool isAll;
 
   @override
   Widget build(BuildContext context) {
@@ -49,21 +51,36 @@ class PostHead extends StatelessWidget {
                   child: CustomImageBase(
                     width: 45,
                     height: 45,
-                    defaultImage: context
-                        .watch<PostProvider>()
-                        .posts![postIndex]
-                        .imagenPerfil,
+                    defaultImage: isAll
+                        ? context
+                            .read<PostProvider>()
+                            .posts![postIndex]
+                            .imagenPerfil
+                        : context
+                            .read<PostProvider>()
+                            .followedPosts![postIndex]
+                            .imagenPerfil,
                     fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(width: 16),
                 Text(
-                  context.watch<PostProvider>().posts![postIndex].username,
+                  isAll
+                      ? context.read<PostProvider>().posts![postIndex].username
+                      : context
+                          .read<PostProvider>()
+                          .followedPosts![postIndex]
+                          .username,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 )
               ],
             ),
-            if (context.read<PostProvider>().posts![postIndex].uid ==
+            if ((isAll
+                    ? context.read<PostProvider>().posts![postIndex].uid
+                    : context
+                        .read<PostProvider>()
+                        .followedPosts![postIndex]
+                        .uid) ==
                 FirebaseAuth.instance.currentUser!.uid)
               PopupMenuButton<String>(
                 onSelected: (value) => choiceAction(context, value),

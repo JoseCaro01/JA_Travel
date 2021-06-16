@@ -19,11 +19,16 @@ class _AnonymusPageState extends State<AnonymusPage> {
 
   @override
   Widget build(BuildContext context) {
-    return context.read<CityProvider>().places.isEmpty
-        ? Center(
-            child: CircularProgressIndicator(
-            backgroundColor: Colors.white,
-          ))
+    return context.watch<CityProvider>().places.isEmpty
+        ? Container(
+            color: Colors.grey[50],
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+                child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            )),
+          )
         : CitiesWidget();
   }
 }

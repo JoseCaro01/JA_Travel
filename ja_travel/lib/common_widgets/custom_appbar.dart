@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ja_travel/provider/user_provider.dart';
+import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -36,7 +37,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: Colors.black,
+                color: Theme.of(context).appBarTheme.titleTextStyle!.color,
               ),
               onPressed: () => setState(() {
                 searchOrSee = false;
@@ -51,7 +52,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 IconButton(
                     icon: Icon(
                       Icons.clear,
-                      color: Colors.black,
+                      color:
+                          Theme.of(context).appBarTheme.titleTextStyle!.color,
                     ),
                     onPressed: () => widget.controller.text = "")
               ] //BORRAR QUERY,)],
@@ -68,7 +70,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       }),
                   icon: Icon(
                     Icons.search,
-                    color: Colors.black,
+                    color: Theme.of(context).appBarTheme.titleTextStyle!.color,
                   ))
             ],
           );

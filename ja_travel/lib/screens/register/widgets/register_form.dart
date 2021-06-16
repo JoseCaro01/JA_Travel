@@ -112,6 +112,8 @@ class _RegisterFormState extends State<RegisterForm> {
                       name: name.text,
                       address: address.text,
                       phone: phone.text,
+                      banner: "",
+                      description: "Hey, Soy nuevo en JA Travel",
                       followers: 0,
                       followed: {},
                       image: ''),
@@ -137,7 +139,8 @@ class _RegisterFormState extends State<RegisterForm> {
                     onCall: () async {
                       await context.read<PostProvider>().getPosts();
                       await context.read<CityProvider>().getCities();
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/home', (route) => false);
                     },
                   ),
                 );

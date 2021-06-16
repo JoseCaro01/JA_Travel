@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ja_travel/common_widgets/custom_elevatedbutton.dart';
 import 'package:ja_travel/screens/login/widgets/login_form.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

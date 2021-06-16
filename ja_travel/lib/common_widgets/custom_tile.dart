@@ -32,8 +32,8 @@ class CustomTile extends StatelessWidget {
         Container(
           child: Text(
             label,
-            style:
-                textStyle != null ? textStyle! : TextStyle(color: Colors.black),
+            overflow: TextOverflow.ellipsis,
+            style: textStyle,
           ),
           width: width,
         ),

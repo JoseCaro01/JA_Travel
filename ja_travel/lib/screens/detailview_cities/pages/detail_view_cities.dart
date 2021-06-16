@@ -4,10 +4,13 @@ import 'package:ja_travel/provider/user_provider.dart';
 import 'package:ja_travel/screens/description_place/pages/description_place_widget.dart';
 import 'package:ja_travel/screens/map_place/pages/map_place_widget.dart';
 import 'package:ja_travel/screens/weather_place/pages/weather_place_widget.dart';
+import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
 
 class DetailViewCities extends StatefulWidget {
-  const DetailViewCities({Key? key}) : super(key: key);
+  const DetailViewCities({Key? key, required this.data}) : super(key: key);
+
+  final Object data;
 
   @override
   _DetailViewCitiesState createState() => _DetailViewCitiesState();
@@ -18,8 +21,13 @@ class _DetailViewCitiesState extends State<DetailViewCities> {
   Place? place;
 
   @override
+  void initState() {
+    place = widget.data as Place;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    place = ModalRoute.of(context)!.settings.arguments as Place;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -27,12 +35,12 @@ class _DetailViewCitiesState extends State<DetailViewCities> {
             ? FloatingActionButton.extended(
                 onPressed: () => Navigator.pushNamed(context, '/create_post',
                     arguments: place),
-                label: Text("Crear viaje"),
+                label: Text("Crear post"),
                 icon: Icon(Icons.add),
               )
             : FloatingActionButton.extended(
-                onPressed: () => Navigator.popUntil(
-                    context, (route) => route.settings.name == '/login'),
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false),
                 label: Text("Iniciar sesion"),
                 icon: Icon(Icons.add),
               ),
@@ -42,24 +50,22 @@ class _DetailViewCitiesState extends State<DetailViewCities> {
             style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
           bottom: TabBar(
-            indicatorColor: Colors.black,
+            indicatorColor: ColorConfig.tabsIndicatorAndBottomNavigationColor,
+            labelColor: ColorConfig.tabsIndicatorAndBottomNavigationColor,
             tabs: [
               Tab(
                 icon: Icon(
                   Icons.description,
-                  color: Colors.black,
                 ),
               ),
               Tab(
                 icon: Icon(
                   Icons.cloud,
-                  color: Colors.black,
                 ),
               ),
               Tab(
                 icon: Icon(
                   Icons.place,
-                  color: Colors.black,
                 ),
               ),
             ],

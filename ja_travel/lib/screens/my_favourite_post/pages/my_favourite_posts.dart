@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ja_travel/common_widgets/custom_image_base.dart';
 import 'package:ja_travel/models/post.dart';
+import 'package:ja_travel/provider/post_provider.dart';
 import 'package:ja_travel/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -28,10 +29,21 @@ class _MyFavouritePostsState extends State<MyFavouritePosts> {
     PostModel post;
     context.watch<UserProvider>().user!.favourites.forEach((key, value) {
       post = PostModel.fromMap(data: value);
+
       photos.addAll([
-        CustomImageBase(
-          defaultImage: post.imagen,
-          fit: BoxFit.cover,
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, '/detail_post', arguments: [
+            context
+                .read<PostProvider>()
+                .posts!
+                .indexWhere((element) => element.id == post.id),
+            false,
+            true
+          ]),
+          child: CustomImageBase(
+            defaultImage: post.imagen,
+            fit: BoxFit.cover,
+          ),
         )
       ]);
     });

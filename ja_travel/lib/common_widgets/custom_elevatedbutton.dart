@@ -8,6 +8,7 @@ class CustomElevatedButton extends StatelessWidget {
       {required this.title,
       required this.iconData,
       required this.onPressed,
+      this.widthText = 100,
       this.fixedSize = const Size(225, 40)});
 
   /*Titulo del boton */
@@ -18,6 +19,7 @@ class CustomElevatedButton extends StatelessWidget {
   final IconData iconData;
   /*Tamaño del boton (Default: 225,40) */
   final Size fixedSize;
+  final double widthText;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class CustomElevatedButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomTile(
-              width: 100,
+              width: widthText,
               label: title,
               icon: Icon(
                 iconData,

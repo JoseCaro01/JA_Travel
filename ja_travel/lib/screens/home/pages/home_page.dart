@@ -4,15 +4,16 @@ import 'package:ja_travel/provider/home_provider.dart';
 import 'package:ja_travel/screens/cities/pages/cities_widget.dart';
 import 'package:ja_travel/screens/posts/pages/posts.dart';
 import 'package:ja_travel/screens/profile/pages/profile_widget.dart';
+import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   List<Widget> screens = [];
 
   @override
@@ -26,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
+          selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+          selectedItemColor: ColorConfig.tabsIndicatorAndBottomNavigationColor,
           onTap: (value) {
             context.read<HomeProvider>().changeIndex(newIndex: value);
           },

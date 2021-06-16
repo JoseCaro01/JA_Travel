@@ -9,8 +9,9 @@ import 'package:ja_travel/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class EditPost extends StatefulWidget {
-  EditPost({Key? key}) : super(key: key);
+  EditPost({Key? key, required this.data}) : super(key: key);
 
+  final Object data;
   @override
   _EditPostState createState() => _EditPostState();
 }
@@ -21,6 +22,14 @@ class _EditPostState extends State<EditPost> {
   PostModel? post;
 
   @override
+  void initState() {
+    post = widget.data as PostModel;
+    destino.text = post!.destino;
+    descripcion.text = post!.descripcion;
+    super.initState();
+  }
+
+  @override
   void dispose() {
     destino.dispose();
     descripcion.dispose();
@@ -29,9 +38,6 @@ class _EditPostState extends State<EditPost> {
 
   @override
   Widget build(BuildContext context) {
-    post = ModalRoute.of(context)!.settings.arguments as PostModel;
-    destino.text = post!.destino;
-    descripcion.text = post!.descripcion;
     return Scaffold(
       appBar: AppBar(
         title: Text(
