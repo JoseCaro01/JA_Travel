@@ -20,6 +20,8 @@ class FirebaseUserApi {
     return UserModel.fromJson(userDocument.data()!);
   }
 
+  Future<void> logout() => FirebaseAuth.instance.signOut();
+
   /*Metodo para actualizar los datos del usuario */
   Future<void> updateUserData({required UserModel user}) async {
     await FirebaseFirestore.instance

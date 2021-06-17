@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Loading extends StatefulWidget {
   /*Widget encargado de mostrar pantalla de cargando ademas de realizar las peticiones asincronas */
-  const Loading({Key? key, required this.onCall}) : super(key: key);
+  const Loading({Key? key, this.onCall}) : super(key: key);
 
-  final VoidCallback onCall;
+  final VoidCallback? onCall;
 
   @override
   _LoadingState createState() => _LoadingState();
@@ -13,7 +13,7 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   @override
   void initState() {
-    widget.onCall();
+    if (widget.onCall != null) widget.onCall!();
     super.initState();
   }
 

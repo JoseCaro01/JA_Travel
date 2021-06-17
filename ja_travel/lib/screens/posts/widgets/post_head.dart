@@ -102,11 +102,18 @@ class PostHead extends StatelessWidget {
   choiceAction(BuildContext context, String value) {
     if (value == "Editar") {
       Navigator.pushNamed(context, '/edit_post',
-          arguments: context.read<PostProvider>().posts![postIndex]);
+          arguments: isAll
+              ? context.read<PostProvider>().posts![postIndex]
+              : context.read<PostProvider>().followedPosts![postIndex]);
     } else if (value == "Eliminar") {
-      context
-          .read<PostProvider>()
-          .deletePost(post: context.read<PostProvider>().posts![postIndex]);
+      context.read<UserProvider>().toogleFavourite(
+          post: isAll
+              ? context.read<PostProvider>().posts![postIndex]
+              : context.read<PostProvider>().followedPosts![postIndex]);
+      context.read<PostProvider>().deletePost(
+          post: isAll
+              ? context.read<PostProvider>().posts![postIndex]
+              : context.read<PostProvider>().followedPosts![postIndex]);
     }
   }
 }

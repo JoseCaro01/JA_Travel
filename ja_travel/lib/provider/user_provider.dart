@@ -100,4 +100,6 @@ class UserProvider extends ChangeNotifier {
               password: password)
           .then((value) =>
               _firebaseUserApi.changePassword(password: newPassword));
+
+  Future<void> logout() => FirebaseUserApi.instance.logout();
 }

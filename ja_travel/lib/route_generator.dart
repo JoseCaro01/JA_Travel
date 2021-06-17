@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ja_travel/common_widgets/loading.dart';
 import 'package:ja_travel/screens/anonymus/pages/anonymus_page.dart';
 import 'package:ja_travel/screens/create_post/pages/create_post.dart';
 import 'package:ja_travel/screens/detailview_cities/pages/detail_view_cities.dart';
@@ -45,6 +46,10 @@ class RouteGenerator {
           builder: (_) => DetailViewCities(
             data: args!,
           ),
+        );
+      case '/loading':
+        return MaterialPageRoute(
+          builder: (_) => Loading(),
         );
       case '/create_post':
         return MaterialPageRoute(

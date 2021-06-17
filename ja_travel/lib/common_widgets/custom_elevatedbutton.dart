@@ -38,6 +38,7 @@ class CustomElevatedButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomTile(
+              textStyle: TextStyle(color: Colors.black),
               width: widthText,
               label: title,
               icon: Icon(

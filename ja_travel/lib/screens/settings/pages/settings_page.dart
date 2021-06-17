@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ja_travel/provider/settings_provider.dart';
+import 'package:ja_travel/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -26,10 +27,19 @@ class SettingsPage extends StatelessWidget {
                   trailing: Icon(Icons.chevron_right),
                   onTap: () => Navigator.pushNamed(context, '/edit_password'),
                 ),
+                ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text("Cerrar sesión"),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () => context.read<UserProvider>().logout().then(
+                      (value) => Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false)),
+                ),
                 SwitchListTile(
                   value: context.watch<SettingsProvider>().mode,
-                  onChanged: (value) =>
-                      context.read<SettingsProvider>().changeMode(value: value),
+                  onChanged: (value) async => await context
+                      .read<SettingsProvider>()
+                      .changeMode(value: value),
                   title: Text(context.watch<SettingsProvider>().mode
                       ? "Modo claro"
                       : "Modo oscuro"),

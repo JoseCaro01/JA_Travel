@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsProvider with ChangeNotifier {
-  bool _mode = false;
+  bool mode = false;
 
-  bool get mode => _mode;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  void changeMode({required bool value}) {
-    _mode = value;
+  SettingsProvider({required this.mode});
+
+  Future<void> changeMode({required bool value}) async {
+    await _prefs.then((prefs) => prefs.setBool('mode', value));
+    mode = value;
     notifyListeners();
   }
 }
