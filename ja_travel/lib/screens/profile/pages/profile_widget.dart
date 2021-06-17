@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ja_travel/common_widgets/custom_image_base.dart';
-import 'package:ja_travel/common_widgets/profile_photo_background.dart';
 import 'package:ja_travel/provider/post_provider.dart';
 import 'package:ja_travel/provider/user_provider.dart';
 import 'package:ja_travel/common_widgets/profile_header.dart';

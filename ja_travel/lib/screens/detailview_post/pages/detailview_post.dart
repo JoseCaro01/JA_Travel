@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class DetailViewPost extends StatefulWidget {
   DetailViewPost({required this.data});
 
-  List data;
+  final List data;
   @override
   _DetailViewPostState createState() => _DetailViewPostState();
 }

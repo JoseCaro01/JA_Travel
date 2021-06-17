@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ja_travel/common_widgets/custom_elevatedbutton.dart';
 import 'package:ja_travel/common_widgets/custom_image_base.dart';
-import 'package:ja_travel/common_widgets/profile_photo_background.dart';
+
 import 'package:ja_travel/models/post.dart';
 import 'package:ja_travel/provider/post_provider.dart';
 import 'package:ja_travel/provider/user_provider.dart';

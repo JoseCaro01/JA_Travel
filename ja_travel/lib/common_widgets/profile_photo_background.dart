@@ -40,7 +40,6 @@ class ProfilePhotoBackground extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Icon(
                   Icons.edit,
-                  color: Colors.black54,
                 ),
               ),
             ),
@@ -62,7 +61,6 @@ class ProfilePhotoBackground extends StatelessWidget {
                 right: 0,
                 child: Icon(
                   Icons.camera_enhance_outlined,
-                  color: Colors.black54,
                 ),
               )
           ],

@@ -6,7 +6,6 @@ import 'package:ja_travel/screens/weather_place/widgets/custom_card_weather.dart
 import 'package:provider/provider.dart';
 import 'package:weather_icons/weather_icons.dart';
 
-/*TODO:ARREGLAR LA MANERA DE CARGA */
 class WeatherPlaceWidget extends StatefulWidget {
   const WeatherPlaceWidget({Key? key, required this.place}) : super(key: key);
   /*Place pasado por argumento para mostrar el tiempo dentro de un Place */
