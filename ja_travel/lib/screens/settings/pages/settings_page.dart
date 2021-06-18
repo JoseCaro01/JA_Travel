@@ -40,9 +40,7 @@ class SettingsPage extends StatelessWidget {
                   onChanged: (value) async => await context
                       .read<SettingsProvider>()
                       .changeMode(value: value),
-                  title: Text(context.watch<SettingsProvider>().mode
-                      ? "Modo claro"
-                      : "Modo oscuro"),
+                  title: Text("Modo oscuro"),
                 )
               ],
             ),

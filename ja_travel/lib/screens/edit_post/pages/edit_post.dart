@@ -66,7 +66,7 @@ class _EditPostState extends State<EditPost> {
                       : null,
                 ),
                 CustomTextFormField(
-                  label: "Descripcion",
+                  label: "Descripción",
                   maxLines: 3,
                   validator: (value) => value!.isEmpty
                       ? "Debes introducir una descripcion valida"
@@ -74,7 +74,7 @@ class _EditPostState extends State<EditPost> {
                   controller: descripcion,
                 ),
               ],
-              titleButton: "Crear post",
+              titleButton: "Editar post",
               iconButton: Icons.post_add,
               onPressedButton: (validate) async {
                 if (validate) {
@@ -89,8 +89,8 @@ class _EditPostState extends State<EditPost> {
                         await context
                             .read<PostProvider>()
                             .createOrSetPost(post: post!)
-                            .then((value) => Navigator.popUntil(context,
-                                (route) => route.settings.name == '/home'));
+                            .then((value) => Navigator.pushNamedAndRemoveUntil(
+                                context, '/home', (route) => false));
                       },
                     ),
                   );

@@ -43,35 +43,35 @@ class _RegisterFormState extends State<RegisterForm> {
     return CustomForm(
         children: [
           CustomTextFormField(
-              label: "Email",
+              label: "Email*",
               validator: (value) => value!.isValidEmail()
                   ? null
                   : "Debes introducir un email valido",
               controller: email,
               prefixIcon: Icon(Icons.email)),
           CustomTextFormField(
-              label: "Username",
+              label: "Username*",
               validator: (value) => value!.isEmpty
                   ? "Debes de introducir un nombre de usuario válido"
                   : null,
               controller: username,
               prefixIcon: Icon(Icons.person)),
           CustomTextFormField(
-              label: "Nombre completo",
+              label: "Nombre completo*",
               validator: (value) => value!.isEmpty
                   ? "Debes introducir un nombre completo válido"
                   : null,
               controller: name,
               prefixIcon: Icon(FontAwesomeIcons.addressCard)),
           CustomTextFormField(
-              label: "Direccion",
+              label: "Direccion*",
               validator: (value) => value!.isEmpty
                   ? "Debes introducir una dirección válida"
                   : null,
               controller: address,
               prefixIcon: Icon(FontAwesomeIcons.addressBook)),
           CustomTextFormField(
-              label: "Telefono",
+              label: "Telefono*",
               validator: (value) => value!.isNumber()
                   ? null
                   : "Debes de introducir un numero de telefono válido",
@@ -79,7 +79,7 @@ class _RegisterFormState extends State<RegisterForm> {
               prefixIcon: Icon(Icons.phone)),
           CustomTextFormField(
               obscureText: true,
-              label: "Contraseña",
+              label: "Contraseña*",
               validator: (value) => value!.isValidPassword()
                   ? null
                   : "Debes introducir una contraseña al menos con una mayúscula y 8 cararcteres",
@@ -87,7 +87,7 @@ class _RegisterFormState extends State<RegisterForm> {
               prefixIcon: Icon(Icons.lock)),
           CustomTextFormField(
               obscureText: true,
-              label: "Repite la contraseña",
+              label: "Repite la contraseña*",
               validator: (value) => value == password.text && value!.isNotEmpty
                   ? null
                   : "Debe introducir una contraseña igual a la anterior",

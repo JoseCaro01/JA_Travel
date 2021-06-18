@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'custom_image_base.dart';
 
+/*Custom widget encargado de dibujar la cabecera de todos y hacerlo clickable o no */
 class ProfilePhotoBackground extends StatelessWidget {
   const ProfilePhotoBackground(
       {Key? key,
@@ -10,8 +11,10 @@ class ProfilePhotoBackground extends StatelessWidget {
       this.photoProfile})
       : super(key: key);
 
+  /*Tipo funcion para obtener la foto cambiada */
   final Function(Future<String?>? value)? bannerProfile;
   final Function(Future<String?>? value)? photoProfile;
+  /*Para cargar las primeras imagenes  */
   final String bannerProfileImage;
   final String photoProfileImage;
 

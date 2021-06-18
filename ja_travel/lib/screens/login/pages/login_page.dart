@@ -17,14 +17,12 @@ class LoginPage extends StatelessWidget {
                   width: 200,
                   height: 200,
                   decoration: BoxDecoration(
-                    color: Colors.black,
                     shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/logo.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  child: Center(
-                      child: Text(
-                    "JA TRAVEL",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
-                  )),
                 ),
                 LoginForm(),
                 CustomElevatedButton(

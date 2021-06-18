@@ -55,8 +55,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           Theme.of(context).appBarTheme.titleTextStyle!.color,
                     ),
                     onPressed: () => widget.controller.text = "")
-              ] //BORRAR QUERY,)],
-            )
+              ])
         : AppBar(
             automaticallyImplyLeading:
                 context.read<UserProvider>().user == null,

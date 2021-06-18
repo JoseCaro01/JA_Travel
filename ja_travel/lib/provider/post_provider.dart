@@ -29,6 +29,7 @@ class PostProvider with ChangeNotifier {
     return own;
   }
 
+  /*Obtener post mediante una serie de UID */
   void specificPostsByListUID({required List<String> uids}) {
     List<PostModel> posts = [];
     _posts!.forEach((post) {
@@ -42,8 +43,11 @@ class PostProvider with ChangeNotifier {
   }
 
   /*Metodo para obtener las posts por primera vez  */
-  Future<void> getPosts() async {
+  Future<void> getPosts({List<String>? uids}) async {
     _posts = await _firebasePostApi.getPosts();
+    if (uids != null) {
+      specificPostsByListUID(uids: uids);
+    }
     notifyListeners();
   }
 

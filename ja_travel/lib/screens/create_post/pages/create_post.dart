@@ -18,9 +18,12 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+  /*Instanciacion de controladores */
   final TextEditingController descripcion = TextEditingController();
   final TextEditingController destino = TextEditingController();
+  /*Future donde se almacenara la imagen si se cambia */
   Future<String?>? image;
+  /*Place pasado por argumento */
   Place? place;
 
   @override
@@ -88,7 +91,6 @@ class _CreatePostState extends State<CreatePost> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             CustomImageBase(

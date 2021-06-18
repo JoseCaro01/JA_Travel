@@ -5,20 +5,18 @@ import 'package:ja_travel/models/user.dart';
 import 'package:ja_travel/services/firebase/firebase_user.dart';
 
 class UserProvider extends ChangeNotifier {
-  FirebaseUserApi _firebaseUserApi = FirebaseUserApi.instance;
-
   UserModel? user;
   UserModel? visitUser;
 
   /* Metodo Obtener los datos del usuario */
   getUserData() async {
-    user = await _firebaseUserApi.getUserData();
+    user = await FirebaseUserApi.instance.getUserData();
     notifyListeners();
   }
 
   /*Metodo Actualizar los datos del usuario */
   updateUserData({required UserModel user}) async {
-    await _firebaseUserApi.updateUserData(user: user);
+    await FirebaseUserApi.instance.updateUserData(user: user);
     await getUserData();
   }
 
@@ -28,23 +26,28 @@ class UserProvider extends ChangeNotifier {
       required String password,
       required UserModel user}) async {
     try {
-      await _firebaseUserApi
+      await FirebaseUserApi.instance
           .registerUser(email: email, password: password, user: user)
           .then((value) => getUserData());
-    } catch (FirebaseAuthEmailAlreadyInUse) {
+    } catch (e) {
       return "Has introducido un email que se encuentra en uso";
     }
   }
 
   /* Metodo Loguear un usuario */
-  Future<void> loginUser(
+  Future<String?> loginUser(
       {required String email, required String password}) async {
-    await _firebaseUserApi.loginUser(email: email, password: password);
+    try {
+      await FirebaseUserApi.instance
+          .loginUser(email: email, password: password);
+    } catch (e) {
+      return "Has introducido una contraseña erronea";
+    }
   }
 
   /*Metodo Visitar un usuario */
   getVisitUser({required String uid}) async {
-    visitUser = await _firebaseUserApi.getUserData(uid: uid);
+    visitUser = await FirebaseUserApi.instance.getUserData(uid: uid);
     notifyListeners();
   }
 
@@ -58,8 +61,8 @@ class UserProvider extends ChangeNotifier {
       user!.followed[visitUser!.uid.toString()] = 0;
     }
     Future.wait([
-      _firebaseUserApi.updateUserData(user: visitUser!),
-      _firebaseUserApi.updateUserData(user: user!)
+      FirebaseUserApi.instance.updateUserData(user: visitUser!),
+      FirebaseUserApi.instance.updateUserData(user: user!)
     ]);
 
     notifyListeners();
@@ -73,9 +76,9 @@ class UserProvider extends ChangeNotifier {
 
   /*Meotodo para recuperar la contraseña */
   recoverPassword({required String email}) =>
-      _firebaseUserApi.recoverPassword(email: email);
+      FirebaseUserApi.instance.recoverPassword(email: email);
 
-  /* */
+  /*Metodo toogle para guardar y quitar de favoritos una publicacion */
   toogleFavourite({required PostModel post}) async {
     if (isSave(post: post)) {
       await FirebaseUserApi.instance
@@ -88,18 +91,29 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /*Metodo para saber si esta guardado o no */
   isSave({required PostModel post}) {
     Map? value = user!.favourites["${post.uid}${post.id}"];
     return value != null;
   }
 
-  Future<void> changePassword(
-          {required String newPassword, required String password}) async =>
-      loginUser(
+  /*Metodo para cambiar contraseña */
+  Future<String?> changePassword(
+      {required String newPassword, required String password}) async {
+    try {
+      await loginUser(
               email: FirebaseAuth.instance.currentUser!.email!,
               password: password)
           .then((value) =>
-              _firebaseUserApi.changePassword(password: newPassword));
+              FirebaseUserApi.instance.changePassword(password: newPassword));
+    } catch (e) {
+      return "Has introducido una contraseña erronea";
+    }
+  }
 
-  Future<void> logout() => FirebaseUserApi.instance.logout();
+  /*Metodo para desloguearse */
+  Future<void> logout() async {
+    user = null;
+    await FirebaseUserApi.instance.logout();
+  }
 }

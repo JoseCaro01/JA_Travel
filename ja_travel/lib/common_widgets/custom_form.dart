@@ -22,7 +22,9 @@ class CustomForm extends StatefulWidget {
   final IconData iconButton;
   /*Accion del boton del formulario */
   final void Function(bool validate) onPressedButton;
+  /*Size añadido para editar el tamaño del boton */
   final Size fixedSizeButton;
+  /*Width añadido para cambiar el tamaño que puede ocupar el contenido */
   final double widthText;
 
   @override

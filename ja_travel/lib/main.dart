@@ -10,7 +10,6 @@ import 'package:ja_travel/provider/user_provider.dart';
 import 'package:ja_travel/provider/weather_provider.dart';
 import 'package:ja_travel/route_generator.dart';
 import 'package:ja_travel/provider/home_provider.dart';
-import 'package:ja_travel/screens/home/pages/home_page.dart';
 import 'package:ja_travel/screens/login/pages/login_page.dart';
 import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';
@@ -57,6 +56,7 @@ class InitialPage extends StatelessWidget {
     return FirebaseAuth.instance.currentUser == null
         ? LoginPage()
         : Loading(
+            color: ColorConfig.tabsIndicatorAndBottomNavigationColor,
             onCall: () async {
               await context.read<UserProvider>().getUserData();
               await context.read<PostProvider>().getPosts();

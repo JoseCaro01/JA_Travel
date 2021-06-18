@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.josecaro.ja_travel">
    <application
-        android:label="ja_travel"
-        android:icon="@mipmap/ic_launcher">
+        android:label="JA Travel"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
