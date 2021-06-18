@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ja_travel/common_widgets/loading.dart';
 import 'package:ja_travel/provider/cities_provider.dart';
 import 'package:ja_travel/provider/login_provider.dart';
 import 'package:ja_travel/provider/post_provider.dart';
@@ -10,7 +8,6 @@ import 'package:ja_travel/provider/user_provider.dart';
 import 'package:ja_travel/provider/weather_provider.dart';
 import 'package:ja_travel/route_generator.dart';
 import 'package:ja_travel/provider/home_provider.dart';
-import 'package:ja_travel/screens/home/pages/home_page.dart';
 import 'package:ja_travel/screens/login/pages/login_page.dart';
 import 'package:ja_travel/utils/color_config.dart';
 import 'package:provider/provider.dart';

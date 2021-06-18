@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ja_travel/provider/post_provider.dart';
-import 'package:ja_travel/provider/user_provider.dart';
 import 'package:ja_travel/screens/posts/widgets/post_all_or_followed.dart';
-import 'package:ja_travel/screens/posts/widgets/post_body.dart';
-import 'package:ja_travel/screens/posts/widgets/post_head.dart';
 import 'package:ja_travel/utils/color_config.dart';
-import 'package:provider/provider.dart';
 
 class PostWidget extends StatelessWidget {
   @override
