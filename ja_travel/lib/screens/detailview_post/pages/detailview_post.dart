@@ -36,7 +36,7 @@ class _DetailViewPostState extends State<DetailViewPost> {
     isAll = widget.data[2];
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.data[1]) {
-        scroll.jumpTo(MediaQuery.of(context).size.height / 2);
+        scroll.jumpTo(scroll.position.maxScrollExtent);
       }
     });
     super.initState();
@@ -104,7 +104,7 @@ class _DetailViewPostState extends State<DetailViewPost> {
                   color: ColorConfig.tabsIndicatorAndBottomNavigationColor),
               postIndex: postIndex!,
               commentsAction: () =>
-                  scroll.jumpTo(MediaQuery.of(context).size.height / 2),
+                  scroll.jumpTo(scroll.position.maxScrollExtent),
             ),
             ..._getComments(context),
             Container(
