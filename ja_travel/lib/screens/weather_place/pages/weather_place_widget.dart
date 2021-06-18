@@ -55,7 +55,7 @@ class _WeatherPlaceWidgetState extends State<WeatherPlaceWidget> {
               ),
               CustomCardWeather(
                   label: "Velocidad del viento",
-                  labelTwo: "Direccion del viento",
+                  labelTwo: "Dirección del viento",
                   data:
                       "${context.read<WeatherProvider>().weather!.windSpeed.toString()}m/s",
                   dataTwo:
@@ -63,8 +63,8 @@ class _WeatherPlaceWidgetState extends State<WeatherPlaceWidget> {
                   icon: Icon(FontAwesomeIcons.wind),
                   iconTwo: Icon(FontAwesomeIcons.directions)),
               CustomCardWeather(
-                  label: "Velocidad del viento",
-                  labelTwo: "Presion",
+                  label: "Humedad",
+                  labelTwo: "Presión",
                   data:
                       "${context.read<WeatherProvider>().weather!.humidity.toString()}%",
                   dataTwo:

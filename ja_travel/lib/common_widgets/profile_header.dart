@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ja_travel/common_widgets/profile_photo_background.dart';
 
+/*Custom widget ProfileHeader  */
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader(
       {Key? key,
@@ -13,12 +14,19 @@ class ProfileHeader extends StatelessWidget {
       required this.description})
       : super(key: key);
 
+  /*Nombre de usuario */
   final String username;
+  /*Numero de post subidos */
   final String postUpload;
+  /*Numero de seguidores */
   final String followers;
+  /*Numero de seguidos */
   final String followed;
+  /*Descripcion del usuario */
   final String description;
+  /*Foto de perfil */
   final String photoProfileImage;
+  /*Foto del banner */
   final String bannerProfileImage;
 
   @override

@@ -24,7 +24,7 @@ class PostActionRow extends StatelessWidget {
   final bool showAllText;
   /*Acciones de los comentarios (Default: Navegar y mostrar comentarios)*/
   final VoidCallback? commentsAction;
-
+  /*Para controlar si es para followedPosts o AllPosts */
   final bool isAll;
 
   @override
@@ -105,51 +105,60 @@ class PostActionRow extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 16, right: 16, bottom: 20, top: 10),
           child: Text(
-            isAll
-                ? context
-                    .read<PostProvider>()
-                    .posts![postIndex]
-                    .descripcion
-                    .substring(
-                        0,
-                        context
-                                    .read<PostProvider>()
-                                    .posts![postIndex]
-                                    .descripcion
-                                    .indexOf("\n") ==
-                                -1
-                            ? context
-                                .read<PostProvider>()
-                                .posts![postIndex]
-                                .descripcion
-                                .length
-                            : context
-                                .read<PostProvider>()
-                                .posts![postIndex]
-                                .descripcion
-                                .indexOf("\n"))
-                : context
-                    .read<PostProvider>()
-                    .followedPosts![postIndex]
-                    .descripcion
-                    .substring(
-                        0,
-                        context
-                                    .read<PostProvider>()
-                                    .followedPosts![postIndex]
-                                    .descripcion
-                                    .indexOf("\n") ==
-                                -1
-                            ? context
-                                .read<PostProvider>()
-                                .followedPosts![postIndex]
-                                .descripcion
-                                .length
-                            : context
-                                .read<PostProvider>()
-                                .followedPosts![postIndex]
-                                .descripcion
-                                .indexOf("\n")),
+            showAllText
+                ? isAll
+                    ? context.read<PostProvider>().posts![postIndex].descripcion
+                    : context
+                        .read<PostProvider>()
+                        .followedPosts![postIndex]
+                        .descripcion
+                : isAll
+                    ? context
+                            .read<PostProvider>()
+                            .posts![postIndex]
+                            .descripcion
+                            .substring(
+                                0,
+                                context
+                                            .read<PostProvider>()
+                                            .posts![postIndex]
+                                            .descripcion
+                                            .indexOf("\n") ==
+                                        -1
+                                    ? context
+                                        .read<PostProvider>()
+                                        .posts![postIndex]
+                                        .descripcion
+                                        .length
+                                    : context
+                                        .read<PostProvider>()
+                                        .posts![postIndex]
+                                        .descripcion
+                                        .indexOf("\n")) +
+                        "..."
+                    : context
+                            .read<PostProvider>()
+                            .followedPosts![postIndex]
+                            .descripcion
+                            .substring(
+                                0,
+                                context
+                                            .read<PostProvider>()
+                                            .followedPosts![postIndex]
+                                            .descripcion
+                                            .indexOf("\n") ==
+                                        -1
+                                    ? context
+                                        .read<PostProvider>()
+                                        .followedPosts![postIndex]
+                                        .descripcion
+                                        .length
+                                    : context
+                                        .read<PostProvider>()
+                                        .followedPosts![postIndex]
+                                        .descripcion
+                                        .indexOf("\n")) +
+                        "...",
             textAlign: TextAlign.justify,
             overflow: !showAllText ? TextOverflow.ellipsis : null,
             style: descriptionTextStyle,

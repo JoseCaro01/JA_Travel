@@ -2,7 +2,7 @@
     package="com.josecaro.ja_travel">
    <application
         android:label="ja_travel"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

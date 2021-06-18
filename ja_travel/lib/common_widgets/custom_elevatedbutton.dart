@@ -19,6 +19,7 @@ class CustomElevatedButton extends StatelessWidget {
   final IconData iconData;
   /*Tamaño del boton (Default: 225,40) */
   final Size fixedSize;
+  /*Tamaño maximo que puede ocupar el texto */
   final double widthText;
 
   @override

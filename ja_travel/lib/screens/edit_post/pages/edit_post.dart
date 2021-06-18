@@ -89,8 +89,8 @@ class _EditPostState extends State<EditPost> {
                         await context
                             .read<PostProvider>()
                             .createOrSetPost(post: post!)
-                            .then((value) => Navigator.popUntil(context,
-                                (route) => route.settings.name == '/home'));
+                            .then((value) => Navigator.pushNamedAndRemoveUntil(
+                                context, '/home', (route) => false));
                       },
                     ),
                   );

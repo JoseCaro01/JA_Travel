@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ja_travel/common_widgets/custom_image_base.dart';
 import 'package:ja_travel/common_widgets/post_action_row.dart';
 import 'package:ja_travel/models/comment.dart';
@@ -35,7 +36,7 @@ class _DetailViewPostState extends State<DetailViewPost> {
     isAll = widget.data[2];
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.data[1]) {
-        scroll.jumpTo(MediaQuery.of(context).size.height / 2);
+        scroll.jumpTo(scroll.position.maxScrollExtent);
       }
     });
     super.initState();
@@ -79,107 +80,96 @@ class _DetailViewPostState extends State<DetailViewPost> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.749,
-            child: SingleChildScrollView(
-              controller: scroll,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        controller: scroll,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2,
+              child: CustomImageBase(
+                  fit: BoxFit.cover,
+                  defaultImage: isAll!
+                      ? context.read<PostProvider>().posts![postIndex!].imagen
+                      : context
+                          .read<PostProvider>()
+                          .followedPosts![postIndex!]
+                          .imagen),
+            ),
+            PostActionRow(
+              isAll: isAll!,
+              showAllText: true,
+              descriptionTextStyle: TextStyle(
+                  color: ColorConfig.tabsIndicatorAndBottomNavigationColor),
+              postIndex: postIndex!,
+              commentsAction: () =>
+                  scroll.jumpTo(scroll.position.maxScrollExtent),
+            ),
+            ..._getComments(context),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.23,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: CustomImageBase(
-                        fit: BoxFit.cover,
-                        defaultImage: isAll!
-                            ? context
-                                .read<PostProvider>()
-                                .posts![postIndex!]
-                                .imagen
-                            : context
-                                .read<PostProvider>()
-                                .followedPosts![postIndex!]
-                                .imagen),
+                  Expanded(
+                      child: TextField(
+                    controller: message,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      labelText: "Mensaje",
+                    ),
+                  )),
+                  SizedBox(
+                    width: 16,
                   ),
-                  PostActionRow(
-                    isAll: isAll!,
-                    showAllText: true,
-                    descriptionTextStyle: TextStyle(
-                        color:
-                            ColorConfig.tabsIndicatorAndBottomNavigationColor),
-                    postIndex: postIndex!,
-                    commentsAction: () =>
-                        scroll.jumpTo(MediaQuery.of(context).size.height / 2),
-                  ),
-                  ..._getComments(context),
+                  IconButton(
+                      onPressed: () async {
+                        if (message.text.isNotEmpty) {
+                          await context
+                              .read<PostProvider>()
+                              .createComment(
+                                  comment: CommentModel(
+                                      id: isAll!
+                                          ? context
+                                                  .read<PostProvider>()
+                                                  .posts![postIndex!]
+                                                  .comments
+                                                  .length +
+                                              1
+                                          : context
+                                                  .read<PostProvider>()
+                                                  .followedPosts![postIndex!]
+                                                  .comments
+                                                  .length +
+                                              1,
+                                      uid: context
+                                          .read<UserProvider>()
+                                          .user!
+                                          .uid!,
+                                      username: context
+                                          .read<UserProvider>()
+                                          .user!
+                                          .username,
+                                      imageProfile: context
+                                          .read<UserProvider>()
+                                          .user!
+                                          .image,
+                                      comment: message.text),
+                                  post: context
+                                      .read<PostProvider>()
+                                      .posts![postIndex!])
+                              .then((value) => message.clear());
+                        }
+                      },
+                      icon: Icon(Icons.keyboard_arrow_right))
                 ],
               ),
             ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                    child: TextField(
-                  controller: message,
-                  decoration: InputDecoration(
-                    labelText: "Mensaje",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
-                )),
-                SizedBox(
-                  width: 16,
-                ),
-                IconButton(
-                    onPressed: () async {
-                      if (message.text.isNotEmpty) {
-                        await context
-                            .read<PostProvider>()
-                            .createComment(
-                                comment: CommentModel(
-                                    id: isAll!
-                                        ? context
-                                                .read<PostProvider>()
-                                                .posts![postIndex!]
-                                                .comments
-                                                .length +
-                                            1
-                                        : context
-                                                .read<PostProvider>()
-                                                .followedPosts![postIndex!]
-                                                .comments
-                                                .length +
-                                            1,
-                                    uid:
-                                        context.read<UserProvider>().user!.uid!,
-                                    username: context
-                                        .read<UserProvider>()
-                                        .user!
-                                        .username,
-                                    imageProfile: context
-                                        .read<UserProvider>()
-                                        .user!
-                                        .image,
-                                    comment: message.text),
-                                post: context
-                                    .read<PostProvider>()
-                                    .posts![postIndex!])
-                            .then((value) => message.clear());
-                      }
-                    },
-                    icon: Icon(Icons.keyboard_arrow_right))
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -217,18 +207,16 @@ class _DetailViewPostState extends State<DetailViewPost> {
                 ],
               ),
               context.read<UserProvider>().user!.uid == comment.uid
-                  ? PopupMenuButton(
-                      onSelected: (value) => context
-                          .read<PostProvider>()
-                          .deleteComment(
-                              post: context
-                                  .read<PostProvider>()
-                                  .posts![postIndex!],
-                              comment: comment),
-                      itemBuilder: (context) => ['Eliminar']
-                          .map((e) => PopupMenuItem(value: e, child: Text(e)))
-                          .toList(),
-                    )
+                  ? IconButton(
+                      iconSize: 16,
+                      onPressed: () =>
+                          context.read<PostProvider>().deleteComment(
+                                post: context
+                                    .read<PostProvider>()
+                                    .posts![postIndex!],
+                                comment: comment,
+                              ),
+                      icon: Icon(FontAwesomeIcons.trash))
                   : SizedBox(
                       height: 45,
                     )

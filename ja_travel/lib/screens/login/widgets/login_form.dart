@@ -37,28 +37,31 @@ class _LoginFormState extends State<LoginForm> {
       iconButton: Icons.login,
       onPressedButton: (validate) async {
         if (validate) {
-          try {
-            await context
-                .read<UserProvider>()
-                .loginUser(email: email.text, password: password.text);
-            showGeneralDialog(
-              context: context,
-              pageBuilder: (context, animation, secondaryAnimation) => Loading(
-                onCall: () async {
-                  await context.read<UserProvider>().getUserData();
-                  await context.read<PostProvider>().getPosts();
-                  await context.read<CityProvider>().getCities();
+          await context
+              .read<UserProvider>()
+              .loginUser(email: email.text, password: password.text);
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (context, animation, secondaryAnimation) => Loading(
+              onCall: () async {
+                await context.read<UserProvider>().getUserData();
+                await context.read<PostProvider>().getPosts();
+                await context.read<CityProvider>().getCities();
 
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (route) => false);
-                },
-              ),
-            );
-          } catch (e) {
-            print("Excepcion" + e.toString());
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red, content: Text(e.toString())));
-          }
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/home', (route) => false);
+              },
+            ),
+          ).then((value) {
+            if (value != null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text(value.toString())));
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/home', (route) => false);
+            }
+          });
         }
       },
       titleButton: 'Login',

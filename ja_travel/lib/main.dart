@@ -45,26 +45,7 @@ class MyApp extends StatelessWidget {
             ? ColorConfig.getDarkTheme()
             : ColorConfig.getLightTheme(),
         onGenerateRoute: RouteGenerator.generateRoute,
-        home: InitialPage());
-  }
-}
-
-class InitialPage extends StatelessWidget {
-  const InitialPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FirebaseAuth.instance.currentUser == null
-        ? LoginPage()
-        : Loading(
-            onCall: () async {
-              await context.read<UserProvider>().getUserData();
-              await context.read<PostProvider>().getPosts();
-              await context.read<CityProvider>().getCities();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/home', (route) => false);
-            },
-          );
+        home: LoginPage());
   }
 }
 
